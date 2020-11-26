@@ -7,15 +7,16 @@ import { ProudctList } from './style';
 import { formatPrice } from '../../utils/format';
 
 import api from '../../services/api';
+import * as CartActions from '../../store/modules/cart/actions';
 
 // eslint-disable-next-line react/prop-types
-const Home = ({ dispatch }) => {
+const Home = ({ dispatch, amount }) => {
   const [products, setProducts] = useState([]);
 
   const getProduct = async () => {
     const response = await api.get('products');
 
-    const data = response.data.map(product => ({
+    const data = response.data.map((product) => ({
       ...product,
       priceFormated: formatPrice(product.price),
     }));
@@ -27,16 +28,13 @@ const Home = ({ dispatch }) => {
     getProduct();
   }, []);
 
-  const handleAddCart = product => {
-    dispatch({
-      type: 'ADD_TO_CART',
-      product,
-    });
+  const handleAddCart = (product) => {
+    dispatch(CartActions.AddToCart(product));
   };
 
   return (
     <ProudctList>
-      {products.map(product => {
+      {products.map((product) => {
         return (
           <li key={product.id}>
             <img src={product.image} alt="tenis" />
@@ -45,6 +43,7 @@ const Home = ({ dispatch }) => {
             <button type="button" onClick={() => handleAddCart(product)}>
               <div>
                 <MdAddShoppingCart size={16} color="#fff" />
+                {amount[product.id] || 0}
               </div>
               <span>ADICIONAR AO CARRINHO</span>
             </button>
@@ -55,4 +54,12 @@ const Home = ({ dispatch }) => {
   );
 };
 
-export default connect()(Home);
+const mapStateToProps = (state) => ({
+  amount: state.cart.reduce((amount, product) => {
+    amount[product.id] = product.amount;
+
+    return amount;
+  }, {}),
+});
+
+export default connect(mapStateToProps)(Home);
