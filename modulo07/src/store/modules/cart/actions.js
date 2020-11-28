@@ -1,4 +1,9 @@
-export const AddToCart = (product) => ({ type: '@cart/Add', product });
+export const AddToCartRequest = (id) => ({ type: '@cart/Add_Request', id });
+
+export const AddToCartSuccess = (product) => ({
+  type: '@cart/Add_Success',
+  product,
+});
 
 export const RemoveFromCart = (id) => ({ type: '@cart/Remove', id });
 

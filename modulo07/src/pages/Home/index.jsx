@@ -28,8 +28,8 @@ const Home = ({ dispatch, amount }) => {
     getProduct();
   }, []);
 
-  const handleAddCart = (product) => {
-    dispatch(CartActions.AddToCart(product));
+  const handleAddCart = (id) => {
+    dispatch(CartActions.AddToCartRequest(id));
   };
 
   return (
@@ -40,7 +40,7 @@ const Home = ({ dispatch, amount }) => {
             <img src={product.image} alt="tenis" />
             <strong>{product.title}</strong>
             <span>{product.priceFormated}</span>
-            <button type="button" onClick={() => handleAddCart(product)}>
+            <button type="button" onClick={() => handleAddCart(product.id)}>
               <div>
                 <MdAddShoppingCart size={16} color="#fff" />
                 {amount[product.id] || 0}

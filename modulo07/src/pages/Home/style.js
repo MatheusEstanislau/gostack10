@@ -51,7 +51,7 @@ export const ProudctList = styled.ul`
         align-items: center;
         padding: 12px;
         background: rgba(0, 0, 0, 0.1);
-
+        color: #fff;
         > svg {
           margin-right: 3px;
         }
